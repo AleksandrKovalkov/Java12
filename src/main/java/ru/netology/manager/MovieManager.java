@@ -4,7 +4,17 @@ import ru.netology.domain.MovieItem;
 
 public class MovieManager {
     private MovieItem[] items = new MovieItem[0];
-    int defaultCount = 10;
+    private int defaultCount = 10;
+
+    MovieManager() {
+    }
+
+    public MovieManager(int userLength) {
+        if (userLength > 0) {
+            defaultCount = userLength;
+        }
+    }
+
 
     public void add(MovieItem item) {
         int length = items.length + 1;
@@ -15,26 +25,19 @@ public class MovieManager {
         items = tmp;
     }
 
-    public MovieItem[] getAll(int movieListLimit) {
-        MovieItem[] result = new MovieItem[items.length];
-        if (movieListLimit > defaultCount) {
-            movieListLimit = defaultCount;
+    public MovieItem[] getAll() {
+        int movieItem = items.length;
+        int localMovieItem = defaultCount;
+        if (movieItem < localMovieItem) {
+            localMovieItem = movieItem;
         }
-        if (movieListLimit > result.length) {
-            movieListLimit = result.length;
-        }
-        int movieListStart = result.length - movieListLimit;
-        for (int i = 0; i < movieListLimit; i++) {
-            int index = items.length - i - 1;
+        MovieItem[] result = new MovieItem[localMovieItem];
+
+        for (int i = 0; i < result.length; i++) {
+            int index = movieItem - i - 1;
             result[i] = items[index];
         }
-
-        MovieItem[] destArr = new MovieItem[movieListLimit];
-        System.arraycopy(result, 0, destArr, 0, movieListLimit);
-        for (int i = 0; i < movieListLimit; i++) {
-            destArr[i] = result[i];
-        }
-        return destArr;
+        return result;
     }
 
     public void removeByMovieId(int id) {
@@ -50,3 +53,5 @@ public class MovieManager {
         items = tmp;
     }
 }
+
+

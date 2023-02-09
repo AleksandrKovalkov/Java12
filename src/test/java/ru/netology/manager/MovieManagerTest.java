@@ -2,15 +2,14 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.MovieItem;
-import ru.netology.manager.MovieManager;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class MovieManagerTest {
 
     @Test
     public void getAllListLimitOverArrayTest() {
-        MovieManager manager = new MovieManager();
+        MovieManager manager = new MovieManager(10);
         MovieItem first = new MovieItem(1, "first", "http://github.com/1", 1);
         MovieItem second = new MovieItem(2, "second", "http://github.com/2", 2);
         MovieItem third = new MovieItem(3, "third", "http://github.com/3", 1);
@@ -18,7 +17,7 @@ public class MovieManagerTest {
         manager.add(second);
         manager.add(third);
 
-        MovieItem[] actual = manager.getAll(10);
+        MovieItem[] actual = manager.getAll();
         MovieItem[] expected = new MovieItem[]{third, second, first};
 
         assertArrayEquals(expected, actual);
@@ -26,7 +25,7 @@ public class MovieManagerTest {
 
     @Test
     public void getAllListLimitUnderArrayTest() {
-        MovieManager manager = new MovieManager();
+        MovieManager manager = new MovieManager(3);
         MovieItem first = new MovieItem(1, "first", "http://github.com/1", 1);
         MovieItem second = new MovieItem(2, "second", "http://github.com/2", 2);
         MovieItem third = new MovieItem(3, "third", "http://github.com/3", 1);
@@ -40,15 +39,15 @@ public class MovieManagerTest {
         manager.add(fifth);
         manager.add(sixth);
 
-        MovieItem[] actual = manager.getAll(3);
+        MovieItem[] actual = manager.getAll();
         MovieItem[] expected = new MovieItem[]{sixth, fifth, fourth};
 
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void getAllListLimitOver10ItemTest() {
-        MovieManager manager = new MovieManager();
+    public void getAllListLimit10ItemTest() {
+        MovieManager manager = new MovieManager(10);
         MovieItem first = new MovieItem(1, "first", "http://github.com/1", 1);
         MovieItem second = new MovieItem(2, "second", "http://github.com/2", 2);
         MovieItem third = new MovieItem(3, "third", "http://github.com/3", 1);
@@ -74,15 +73,16 @@ public class MovieManagerTest {
         manager.add(eleventh);
         manager.add(twelfth);
 
-        MovieItem[] actual = manager.getAll(11);
+        MovieItem[] actual = manager.getAll();
         MovieItem[] expected = new MovieItem[]{twelfth, eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third};
 
         assertArrayEquals(expected, actual);
+
     }
 
     @Test
     public void removeByMovieIdTest() {
-        MovieManager manager = new MovieManager();
+        MovieManager manager = new MovieManager(3);
         int movieIdToRemove = 1;
         MovieItem first = new MovieItem(1, "first", "http://github.com/1", 1);
         MovieItem second = new MovieItem(2, "second", "http://github.com/2", 2);
@@ -92,7 +92,7 @@ public class MovieManagerTest {
         manager.add(third);
 
         manager.removeByMovieId(movieIdToRemove);
-        MovieItem[] actual = manager.getAll(3);
+        MovieItem[] actual = manager.getAll();
         MovieItem[] expected = new MovieItem[]{third, second};
 
         assertArrayEquals(expected, actual);
